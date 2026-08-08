@@ -552,9 +552,9 @@
                     <p class="text-sm text-slate-300 mt-1">選定日期區間，自動撈取會員測算紀錄交由 Gemini 統整，一鍵匯出 Word 營運報告。</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <input type="date" id="report-start" class="px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-sm text-white focus:outline-none focus:border-brand-500">
-                    <span class="text-slate-400">至</span>
-                    <input type="date" id="report-end" class="px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-sm text-white focus:outline-none focus:border-brand-500">
+                    <input type="date" id="report-start" class="px-3 py-2 rounded-lg bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer">
+                    <span class="text-slate-300 font-bold">至</span>
+                    <input type="date" id="report-end" class="px-3 py-2 rounded-lg bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer">
                     <button onclick="generateAdminWordReport()" id="btn-admin-report" class="bg-brand-500 hover:bg-brand-600 px-5 py-2 rounded-lg text-sm font-bold transition flex items-center shadow-lg whitespace-nowrap">
                         <i class="fas fa-magic mr-2"></i>生成 Word
                     </button>
