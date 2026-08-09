@@ -44,50 +44,19 @@
     </script>
     
     <style>
-        body {
-            background-color: #f8fafc;
-            color: #334155;
-        }
+        body { background-color: #f8fafc; color: #334155; }
         .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
+            border: 4px solid #f3f3f3; border-top: 4px solid #3b82f6; border-radius: 50%;
+            width: 40px; height: 40px; animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* Custom Scrollbar */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        /* Chat Bubble Styles */
-        .chat-bubble {
-            position: relative;
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-        .chat-user {
-            background-color: #3b82f6;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-        .chat-ai {
-            background-color: #f1f5f9;
-            color: #334155;
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-            border: 1px solid #e2e8f0;
-        }
+        .chat-bubble { position: relative; max-width: 80%; padding: 12px 16px; border-radius: 12px; margin-bottom: 12px; line-height: 1.5; font-size: 0.95rem; }
+        .chat-user { background-color: #3b82f6; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .chat-ai { background-color: #f1f5f9; color: #334155; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #e2e8f0; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -301,7 +270,7 @@
                     </div>
                     <div class="flex gap-4 items-center">
                         <div class="flex-grow relative">
-                            <input type="password" id="api-key-input" placeholder="貼上您的 Gemini API Key (以 AIza 開頭)" class="w-full pl-4 pr-10 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
+                            <input type="password" id="api-key-input" placeholder="貼上您的 Gemini API Key (例如：AIza... 或 AQ... 等格式)" class="w-full pl-4 pr-10 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 transition">
                             <button onclick="toggleApiKeyVisibility()" class="absolute right-3 top-3 text-slate-400 hover:text-brand-500">
                                 <i class="fas fa-eye" id="eye-icon"></i>
                             </button>
@@ -655,7 +624,7 @@
             setTimeout(() => { toast.classList.add('opacity-0', 'translate-y-2'); setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
-        // --- STREAMING_CHUNK:登入系統邏輯與權限控制... ---
+        // --- STREAMING_CHUNK:Auth and Access Control... ---
         function toggleAuthView(target) {
             document.getElementById('login-form').classList.add('hidden');
             document.getElementById('register-form').classList.add('hidden');
@@ -762,9 +731,9 @@
             switch (code) { case 'auth/email-already-in-use': return '此信箱已經註冊過了'; case 'auth/invalid-email': return '無效的信箱格式'; case 'auth/weak-password': return '密碼太弱，請至少輸入6個字元'; case 'auth/user-not-found': return '找不到此帳號'; case 'auth/wrong-password': case 'auth/invalid-credential': return '帳號或密碼錯誤'; default: return '發生錯誤，請稍後再試 (' + code + ')'; }
         }
 
-        // --- STREAMING_CHUNK:掌紋影像處理與 API 整合... ---
+        // --- STREAMING_CHUNK:Images and App UI... ---
         function toggleApiKeyVisibility() { const input = document.getElementById('api-key-input'); const icon = document.getElementById('eye-icon'); if (input.type === "password") { input.type = "text"; icon.classList.replace('fa-eye', 'fa-eye-slash'); } else { input.type = "password"; icon.classList.replace('fa-eye-slash', 'fa-eye'); } }
-        function saveApiKey() { const input = document.getElementById('api-key-input'); const status = document.getElementById('api-status'); const key = input.value.trim(); if (key.length > 10 && key.startsWith('AIza')) { apiKey = key; sessionStorage.setItem('gemini_api_key', key); status.innerHTML = '<span class="text-green-600"><i class="fas fa-check-circle"></i> 金鑰已暫存</span>'; input.classList.add('border-green-500'); showToast('API Key 設定成功', 'success'); } else { status.innerHTML = '<span class="text-red-500"><i class="fas fa-exclamation-circle"></i> 無效的金鑰格式</span>'; showToast('無效的金鑰格式', 'error'); } }
+        function saveApiKey() { const input = document.getElementById('api-key-input'); const status = document.getElementById('api-status'); const key = input.value.trim(); if (key.length > 10) { apiKey = key; sessionStorage.setItem('gemini_api_key', key); status.innerHTML = '<span class="text-green-600"><i class="fas fa-check-circle"></i> 金鑰已暫存</span>'; input.classList.add('border-green-500'); showToast('API Key 設定成功', 'success'); } else { status.innerHTML = '<span class="text-red-500"><i class="fas fa-exclamation-circle"></i> 無效的金鑰格式</span>'; showToast('無效的金鑰格式', 'error'); } }
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             document.getElementById('history-container').classList.add('hidden'); document.getElementById('main-app-container').classList.remove('hidden');
@@ -796,7 +765,7 @@
             } catch (error) { showToast("圖片壓縮失敗", "error"); previewContainer.innerHTML = originalHtml; }
         }
 
-        // --- STREAMING_CHUNK:AI 分析引擎與報告生成... ---
+        // --- STREAMING_CHUNK:AI Analysis... ---
         async function startAnalysis() {
             if (!apiKey) { showToast('請先設定 API Key', 'error'); return; }
             if (!leftImageBase64 || !rightImageBase64) { showToast('請上傳左右手掌紋照片', 'error'); return; }
@@ -870,7 +839,7 @@
             placeholder.classList.add('hidden'); report.classList.remove('hidden'); report.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // --- STREAMING_CHUNK:歷史紀錄載入與刪除機制... ---
+        // --- STREAMING_CHUNK:History and Deletion... ---
         async function fetchHistory(targetUid = null) {
             const list = document.getElementById('history-list'); const title = document.getElementById('history-title');
             list.innerHTML = '<div class="col-span-full text-center py-12"><div class="loader mx-auto mb-4 border-slate-300 border-top-brand-500"></div><p class="text-slate-500 font-medium">從雲端載入紀錄中...</p></div>';
@@ -926,7 +895,7 @@
             } catch (e) { showToast('刪除失敗: ' + e.message, 'error'); } finally { btn.innerHTML = origHTML; btn.disabled = false; closeDeleteModal(); }
         }
 
-        // --- STREAMING_CHUNK:開運處方與 AI 聊天... ---
+        // --- STREAMING_CHUNK:Lucky Charm & Chat... ---
         async function generateLuckyCharm() {
             const btn = document.getElementById('lucky-btn'); const container = document.getElementById('lucky-content');
             if(!apiKey) return showToast("需設定 API Key", "error");
@@ -954,7 +923,7 @@
             } catch (e) { document.getElementById('loading-bubble').innerHTML = '<span class="text-red-500">連線錯誤</span>'; }
         }
 
-        // --- STREAMING_CHUNK:工具與後台管理... ---
+        // --- STREAMING_CHUNK:Utils and Word Export... ---
         function copyToClipboard(text) {
             const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; document.body.appendChild(ta); ta.select();
             try { document.execCommand('copy') ? showToast('已複製', 'success') : showToast('複製失敗', 'error'); } catch(e){} document.body.removeChild(ta);
@@ -979,6 +948,7 @@
             const a = document.createElement("a"); a.href = source; a.download = 'TONY_STUDIO_掌紋分析報告.doc'; a.click();
         }
 
+        // --- STREAMING_CHUNK:Admin Dashboard & Logic... ---
         function toggleAdminDashboard() {
             if (currentUserData.role !== 'admin') { showToast("權限不足", "error"); return; }
             const dashboard = document.getElementById('admin-dashboard-view'); const mainApp = document.getElementById('main-authenticated-view');
@@ -1050,7 +1020,6 @@
             } catch(e) { console.error(e); showToast("生成報告失敗", "error"); } finally { btn.innerHTML = '<i class="fas fa-magic mr-2"></i>生成 Word'; btn.disabled = false; }
         }
 
-        // --- Custom Admin Confirm Modal Logic ---
         function showAdminConfirmModal(title, message, confirmText, actionCallback) {
             document.getElementById('admin-confirm-title').innerText = title;
             document.getElementById('admin-confirm-message').innerText = message;
@@ -1058,57 +1027,32 @@
             btn.innerText = confirmText;
             btn.onclick = async () => {
                 const origText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>處理中...';
-                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>處理中...'; btn.disabled = true;
                 await actionCallback();
-                btn.innerHTML = origText;
-                btn.disabled = false;
-                closeAdminConfirmModal();
+                btn.innerHTML = origText; btn.disabled = false; closeAdminConfirmModal();
             };
             document.getElementById('admin-confirm-modal').classList.remove('hidden');
         }
 
-        function closeAdminConfirmModal() {
-            document.getElementById('admin-confirm-modal').classList.add('hidden');
-        }
+        function closeAdminConfirmModal() { document.getElementById('admin-confirm-modal').classList.add('hidden'); }
 
         async function toggleUserRole(uid, currentRole) {
             const newRole = currentRole === 'admin' ? 'user' : 'admin';
             const roleName = newRole === 'admin' ? '管理員' : '一般用戶';
-            showAdminConfirmModal(
-                "更改權限確認",
-                `確定要將此會員權限更改為「${roleName}」嗎？`,
-                "確認更改",
-                async () => {
-                    try {
-                        await updateDoc(doc(db, "users", uid), { role: newRole });
-                        showToast(`權限已更新為 ${newRole}`, "success");
-                        loadAdminUsers();
-                    } catch (e) {
-                        showToast("更新失敗: " + e.message, "error");
-                    }
-                }
-            );
+            showAdminConfirmModal( "更改權限確認", `確定要將此會員權限更改為「${roleName}」嗎？`, "確認更改", async () => {
+                try { await updateDoc(doc(db, "users", uid), { role: newRole }); showToast(`權限已更新為 ${newRole}`, "success"); loadAdminUsers(); } 
+                catch (e) { showToast("更新失敗: " + e.message, "error"); }
+            });
         }
 
         async function deleteUserDoc(uid) {
-            showAdminConfirmModal(
-                "刪除會員確認",
-                "警告：此操作將從系統中抹除該會員資料表(含歷史)，但無法刪除其 Firebase Auth 登入憑證。確定刪除？",
-                "確認刪除",
-                async () => {
-                    try {
-                        await deleteDoc(doc(db, "users", uid));
-                        showToast("會員資料已移除", "success");
-                        loadAdminUsers();
-                    } catch (e) {
-                        showToast("刪除失敗: " + e.message, "error");
-                    }
-                }
-            );
+            showAdminConfirmModal( "刪除會員確認", "警告：此操作將從系統中抹除該會員資料表(含歷史)，但無法刪除其 Firebase Auth 登入憑證。確定刪除？", "確認刪除", async () => {
+                try { await deleteDoc(doc(db, "users", uid)); showToast("會員資料已移除", "success"); loadAdminUsers(); } 
+                catch (e) { showToast("刪除失敗: " + e.message, "error"); }
+            });
         }
 
-        // Global EXPOSE
+        // --- STREAMING_CHUNK:Global Expose... ---
         window.toggleAuthView = toggleAuthView; window.togglePassword = togglePassword; window.handleLogout = handleLogout;
         window.toggleApiKeyVisibility = toggleApiKeyVisibility; window.saveApiKey = saveApiKey; window.scrollToTop = scrollToTop;
         window.handleFileSelect = handleFileSelect; window.startAnalysis = startAnalysis; window.generateLuckyCharm = generateLuckyCharm; 
@@ -1116,7 +1060,7 @@
         window.exportToWord = exportToWord; window.toggleHistory = toggleHistory; window.viewHistoryItem = viewHistoryItem; 
         window.promptDelete = promptDelete; window.closeDeleteModal = closeDeleteModal; window.confirmDelete = confirmDelete; 
         window.toggleAdminDashboard = toggleAdminDashboard; window.exportCSV = exportCSV; window.generateAdminWordReport = generateAdminWordReport;
-        window.toggleUserRole = toggleUserRole; window.deleteUserDoc = deleteUserDoc; window.closeAdminConfirmModal = closeAdminConfirmModal;
+        window.toggleUserRole = toggleUserRole; window.deleteUserDoc = deleteUserDoc; window.showAdminConfirmModal = showAdminConfirmModal; window.closeAdminConfirmModal = closeAdminConfirmModal;
     </script>
 </body>
 </html>
